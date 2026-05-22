@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Evento Revestiform</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Montserrat',sans-serif;
+    min-height:100vh;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* FUNDO */
+
+.bg{
+
+    position:fixed;
+    inset:0;
+
+    background:
+    linear-gradient(
+        rgba(120,0,0,.22),
+        rgba(120,0,0,.22)
+    ),
+
+    url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1800&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+    filter:blur(2px);
+    transform:scale(1.05);
+
+}
+
+/* BALLON CENTRAL */
+
+.glass-box{
+
+    width:100%;
+    max-width:720px;
+
+    background:rgba(255,255,255,.12);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:38px;
+
+    padding:50px;
+
+    position:relative;
+
+    z-index:2;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.25);
+
+}
+
+/* LOGO */
+
+.logo{
+
+    text-align:center;
+    margin-bottom:35px;
+
+}
+
+.logo h1{
+
+    font-size:2.5rem;
+    font-weight:800;
+    color:white;
+
+}
+
+.logo span{
+
+    color:#FFD23F;
+
+}
+
+/* PROGRESS */
+
+.progress{
+
+    width:100%;
+    height:7px;
+    background:rgba(255,255,255,.12);
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:40px;
+
+}
+
+.progress-bar{
+
+    width:20%;
+    height:100%;
+    background:white;
+    transition:.4s;
+
+}
+
+/* STEPS */
+
+.step{
+
+    display:none;
+    animation:fade .35s ease;
+
+}
+
+.step.active{
+
+    display:block;
+
+}
+
+@keyframes fade{
+
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+.step h2{
+
+    font-size:2.2rem;
+    line-height:1.15;
+    margin-bottom:18px;
+    color:white;
+    font-weight:800;
+
+}
+
+.step p{
+
+    color:rgba(255,255,255,.82);
+    line-height:1.8;
+    margin-bottom:30px;
+    font-size:1rem;
+
+}
+
+/* BUTTONS */
+
+.options{
+
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+
+}
+
+.option-btn{
+
+    width:100%;
+
+    padding:22px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    text-align:left;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    backdrop-filter:blur(10px);
+
+}
+
+.option-btn:hover{
+
+    background:rgba(255,255,255,.18);
+
+    transform:translateY(-2px);
+
+}
+
+/* INFO BOX */
+
+.info-box{
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.10);
+
+    border-radius:22px;
+
+    padding:28px;
+
+    margin-bottom:28px;
+
+}
+
+.info-box ul{
+
+    padding-left:20px;
+
+    color:rgba(255,255,255,.88);
+
+    line-height:2;
+
+}
+
+/* INPUTS */
+
+input{
+
+    width:100%;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.10);
+
+    color:white;
+
+    font-size:1rem;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+input::placeholder{
+
+    color:rgba(255,255,255,.6);
+
+}
+
+input:focus{
+
+    background:rgba(255,255,255,.16);
+
+}
+
+/* CTA */
+
+.next-btn{
+
+    width:100%;
+
+    padding:20px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:white;
+
+    color:#8B0000;
+
+    font-size:1rem;
+
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.next-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 30px rgba(0,0,0,.15);
+
+}
+
+/* SUCCESS */
+
+.success{
+
+    text-align:center;
+
+}
+
+.success h2{
+
+    font-size:2.5rem;
+    color:white;
+    margin-bottom:15px;
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    body{
+
+        padding:20px;
+
+    }
+
+    .glass-box{
+
+        padding:32px;
+
+    }
+
+    .step h2{
+
+        font-size:1.8rem;
+
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div>
+
+<div class="glass-box">
+
+    <div class="logo">
+        <img src="https://revestiformbh.com.br/wp-content/uploads/2025/01/logo-revestiform.svg" alt="Revestiform" style="height:50px;">
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- STEP 1 -->
+
+    <div class="step active">
+
+        <h2>
+            Evento exclusivo para arquitetos e engenheiros
+        </h2>
+
+        <p>
+            Descubra tecnologias modernas aplicadas em pisos vinílicos e laminados, evite patologias de obra e amplie suas conexões estratégicas.
+        </p>
+
+        <button class="next-btn" onclick="nextStep()">
+            Quero participar
+        </button>
+
+    </div>
+
+    <!-- STEP 2 -->
+
+    <div class="step">
+
+        <h2>
+            Você atua em qual área?
+        </h2>
+
+        <div class="options">
+
+            <button class="option-btn" onclick="nextStep()">
+                Arquitetura
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Engenharia
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Design de interiores
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Construção civil
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- STEP 3 -->
+
+    <div class="step">
+
+        <h2>
+            O que mais te interessa?
+        </h2>
+
+        <div class="options">
+
+            <button class="option-btn" onclick="nextStep()">
+                Evitar patologias
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Tecnologias modernas
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Networking
+            </button>
+
+            <button class="option-btn" onclick="nextStep()">
+                Soluções premium
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- STEP 4 -->
+
+    <div class="step">
+
+        <h2>
+            O que você vai descobrir
+        </h2>
+
+        <div class="info-box">
+
+            <ul>
+                <li>Tecnologias que evitam retrabalho</li>
+                <li>Soluções modernas para obras premium</li>
+                <li>Critérios técnicos pouco ensinados</li>
+                <li>Aplicações reais em ambientes corporativos</li>
+                <li>Networking estratégico</li>
+            </ul>
+
+        </div>
+
+        <button class="next-btn" onclick="nextStep()">
+            Continuar
+        </button>
+
+    </div>
+
+    <!-- STEP 5 -->
+
+    <div class="step">
+
+        <h2>
+            Confirme seus dados
+        </h2>
+
+        <p>
+            Reserve sua participação no evento.
+        </p>
+
+        <input type="text" placeholder="Seu nome completo">
+        <input type="email" placeholder="Seu melhor e-mail">
+        <input type="tel" placeholder="WhatsApp">
+
+        <button class="next-btn" onclick="nextStep()">
+            Confirmar presença
+        </button>
+
+    </div>
+
+    <!-- STEP 6 -->
+
+    <div class="step success">
+
+        <h2>
+            Vaga confirmada 🚀
+        </h2>
+
+        <p>
+            Em breve você receberá mais detalhes sobre o evento.
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+
+let currentStep = 0;
+
+const steps = document.querySelectorAll('.step');
+const progressBar = document.getElementById('progressBar');
+
+function nextStep(){
+
+    steps[currentStep].classList.remove('active');
+
+    currentStep++;
+
+    if(currentStep >= steps.length){
+
+        currentStep = steps.length -1;
+
+    }
+
+    steps[currentStep].classList.add('active');
+
+    const progress = ((currentStep + 1) / steps.length) * 100;
+
+    progressBar.style.width = progress + '%';
+
+}
+
+</script>
+
+</body>
+</html>
