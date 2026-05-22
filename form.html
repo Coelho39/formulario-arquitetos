@@ -369,50 +369,19 @@
 
     const url = 'https://script.google.com/macros/s/AKfycbxAuWMbzSa5JqQqJ-i9j7FzXyK3EoIWMpSIFegMm0v8SNRuKLPzGf0i89-Jk__EJafr/exec';
 
-    // Primeiro faz GET para estabelecer sessao (necessario Google)
-    fetch(url, { method: 'GET', mode: 'no-cors' })
-    .then(() => {
-      const iframe = document.createElement('iframe');
-      iframe.name = 'hidden_iframe';
-      iframe.style.display = 'none';
-      document.body.appendChild(iframe);
+    const formData = new FormData();
+    formData.append('nome', nome.value.trim());
+    formData.append('email', email.value.trim());
+    formData.append('whatsapp', whatsapp.value.trim());
+    formData.append('area', selectedArea);
+    formData.append('interesse', selectedInteresse);
 
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = url;
-      form.target = 'hidden_iframe';
-      form.style.display = 'none';
+    navigator.sendBeacon(url, new URLSearchParams(formData));
 
-      const fields = {
-        nome: nome.value.trim(),
-        email: email.value.trim(),
-        whatsapp: whatsapp.value.trim(),
-        area: selectedArea,
-        interesse: selectedInteresse
-      };
-
-      for (const [key, val] of Object.entries(fields)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = val;
-        form.appendChild(input);
-      }
-
-      document.body.appendChild(form);
-      form.submit();
-
-      setTimeout(() => {
-        document.body.removeChild(form);
-        document.body.removeChild(iframe);
-        errorDiv.style.display = 'none';
-        nextStep();
-      }, 2000);
-    })
-    .catch(() => {
-      errorDiv.style.color = '#ff4444';
-      errorDiv.textContent = 'Erro ao enviar. Tente novamente.';
-    });
+    setTimeout(() => {
+      errorDiv.style.display = 'none';
+      nextStep();
+    }, 2000);
   }
 
   document.getElementById('whatsapp').addEventListener('input', function(){
