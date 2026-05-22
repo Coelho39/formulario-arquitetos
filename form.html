@@ -367,22 +367,47 @@
     errorDiv.style.color = '#FFDF00';
     errorDiv.style.display = 'block';
 
-    const params = new URLSearchParams({
-      nome: nome.value.trim(),
-      email: email.value.trim(),
-      whatsapp: whatsapp.value.trim(),
-      area: selectedArea,
-      interesse: selectedInteresse
-    });
+    const url = 'https://script.google.com/macros/s/AKfycbzLTrfPbkmx8SXpyvq18GQS0d-Q9ly2Vka50bdxGJ7DOqpuULy2HdVsmNCWKdEuQB55/exec';
 
-    fetch('https://script.google.com/macros/s/AKfycbzLTrfPbkmx8SXpyvq18GQS0d-Q9ly2Vka50bdxGJ7DOqpuULy2HdVsmNCWKdEuQB55/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: params
-    })
+    // Primeiro faz GET para estabelecer sessao (necessario Google)
+    fetch(url, { method: 'GET', mode: 'no-cors' })
     .then(() => {
-      errorDiv.style.display = 'none';
-      nextStep();
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hidden_iframe';
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = url;
+      form.target = 'hidden_iframe';
+      form.style.display = 'none';
+
+      const fields = {
+        nome: nome.value.trim(),
+        email: email.value.trim(),
+        whatsapp: whatsapp.value.trim(),
+        area: selectedArea,
+        interesse: selectedInteresse
+      };
+
+      for (const [key, val] of Object.entries(fields)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = val;
+        form.appendChild(input);
+      }
+
+      document.body.appendChild(form);
+      form.submit();
+
+      setTimeout(() => {
+        document.body.removeChild(form);
+        document.body.removeChild(iframe);
+        errorDiv.style.display = 'none';
+        nextStep();
+      }, 2000);
     })
     .catch(() => {
       errorDiv.style.color = '#ff4444';
