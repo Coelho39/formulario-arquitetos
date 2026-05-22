@@ -309,6 +309,14 @@
   const steps = document.querySelectorAll('.step');
   const progressBar = document.getElementById('progressBar');
 
+  if (new URLSearchParams(window.location.search).get('ok') === '1') {
+    const last = steps.length - 1;
+    steps[0].classList.remove('active');
+    steps[last].classList.add('active');
+    progressBar.style.width = '100%';
+    currentStep = last;
+  }
+
   function selectArea(value){
     selectedArea = value;
     nextStep();
@@ -363,25 +371,32 @@
     }
 
     errorDiv.style.display = 'none';
-    errorDiv.textContent = 'Enviando...';
-    errorDiv.style.color = '#FFDF00';
-    errorDiv.style.display = 'block';
 
     const url = 'https://script.google.com/macros/s/AKfycbxAuWMbzSa5JqQqJ-i9j7FzXyK3EoIWMpSIFegMm0v8SNRuKLPzGf0i89-Jk__EJafr/exec';
 
-    const formData = new FormData();
-    formData.append('nome', nome.value.trim());
-    formData.append('email', email.value.trim());
-    formData.append('whatsapp', whatsapp.value.trim());
-    formData.append('area', selectedArea);
-    formData.append('interesse', selectedInteresse);
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = url;
+    form.style.display = 'none';
 
-    navigator.sendBeacon(url, new URLSearchParams(formData));
+    const fields = {
+      nome: nome.value.trim(),
+      email: email.value.trim(),
+      whatsapp: whatsapp.value.trim(),
+      area: selectedArea,
+      interesse: selectedInteresse
+    };
 
-    setTimeout(() => {
-      errorDiv.style.display = 'none';
-      nextStep();
-    }, 2000);
+    for (const [key, val] of Object.entries(fields)) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = val;
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
   }
 
   document.getElementById('whatsapp').addEventListener('input', function(){

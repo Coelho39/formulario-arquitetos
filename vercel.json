@@ -8,9 +8,6 @@
     }
   ],
   "routes": [
-    { "src": "/form.html", "dest": "/form.html" },
-    { "src": "/formv2.html", "dest": "/formv2.html" },
-    { "src": "/formv3.html", "dest": "/formv3.html" },
     { "src": "/", "dest": "/form.html" }
   ]
 }
