@@ -3,24 +3,26 @@ function doGet(){
 }
 
 function doPost(e){
-  try {
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Respostas");
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName("Respostas");
+  if (!sheet) {
+    sheet = ss.insertSheet("Respostas");
+  }
 
-    if(!sheet.getRange("A1").getValue()){
-      sheet.getRange("1:1").setValues([[
-        "Data", "Nome", "Email", "WhatsApp", "Área de Atuação", "Interesse"
-      ]]);
-    }
+  const headers = ["Data", "Nome", "Email", "WhatsApp", "Área de Atuação", "Interesse"];
 
-    sheet.appendRow([
-      new Date(),
-      e.parameter.nome,
-      e.parameter.email,
-      e.parameter.whatsapp,
-      e.parameter.area,
-      e.parameter.interesse
-    ]);
-  } catch(err) {}
+  if (!sheet.getRange("A1").getValue()) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  }
+
+  sheet.appendRow([
+    new Date(),
+    e.parameter.nome,
+    e.parameter.email,
+    e.parameter.whatsapp,
+    e.parameter.area,
+    e.parameter.interesse
+  ]);
 
   return HtmlService.createHtmlOutput('<script>location.href="https://formulario-arquitetos.vercel.app?ok=1"</script>');
 }
